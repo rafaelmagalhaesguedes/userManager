@@ -1,19 +1,15 @@
-# Define a imagem base
 FROM node:16.14.2
 
-# Define o diretório de trabalho no container
+# Diretório padrão de execução
 WORKDIR /app
 
-# Copia os arquivos de definição do pacote para o diretório de trabalho
-COPY package*.json ./
-
 # Instala as dependências Node
+COPY package*.json ./
 RUN npm install
 
-# Copia o código fonte para o diretório de trabalho
-COPY . .
-
+# Usuário linux padrão do container, não é recomendado usar root
+# https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 USER node
 
-# Define o comando para iniciar o aplicativo
+# Substitui o comando padrão da imagem do node
 CMD [ "/bin/bash" ]

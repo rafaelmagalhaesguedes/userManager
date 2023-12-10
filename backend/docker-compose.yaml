@@ -2,6 +2,26 @@ version: '3'
 
 services:
 
+  frontend:
+    build: ../frontend # caminho para o diretório que contém o Dockerfile do frontend
+    container_name: frontend_container
+    # Mesmo que `docker run -t`
+    tty: true
+    # Mesmo que `docker run -i`
+    stdin_open: true
+    # Restarta a imagem caso algo a faça parar
+    restart: always
+    volumes:
+      # Monta o diretório /src, com o código da aplicação, 
+      # dentro do diretório /app
+      - ./src:/app/src
+    ports:
+      - 3000:3000 # substitua por sua porta de aplicativo real
+    depends_on:
+      - backend
+    env_file:
+      - .env
+
   backend:
     build: . # caminho para o diretório que contém o Dockerfile do backend
     container_name: backend_container
